@@ -18,6 +18,7 @@ function HomePage({ jobs }) {
     <>
       <Head>
         <title>London Remote Only Jobs</title>
+        <link rel="favicon" href="/favicon.ico" />
       </Head>
       <header className="hero">
         <section className="hero__content">
