@@ -9,7 +9,7 @@ const path = require('path');
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  for (let start = 0; start <= 50; start += 10) {
+  for (let start = 0; start <= 100; start += 10) {
     console.log(start)
     await page.goto(
       "https://www.indeed.co.uk/jobs?q=%22remote%22&l=London&radius=0&sort=date" + (start === 0 ? '' : '&start=' + start),
