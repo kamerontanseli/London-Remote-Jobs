@@ -1,8 +1,19 @@
 import Head from "next/head";
-import { useState } from "react";
+import ReactGA from "react-ga";
+import { useState, useEffect } from "react";
+
+const initGA = () => {
+  console.log("GA init");
+  ReactGA.initialize("UA-72466279-17");
+  ReactGA.set({ page: window.location.pathname });
+  ReactGA.pageview(window.location.pathname);
+};
 
 function HomePage({ jobs }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
+  useEffect(() => {
+    initGA();
+  }, []);
   return (
     <>
       <Head>
@@ -22,7 +33,8 @@ function HomePage({ jobs }) {
       </header>
       <main className="container">
         <div className="alert">
-          <strong>Head Up!</strong> This site periodically fetches the latest remote working jobs so jobs may disappear from the listings below
+          <strong>Head Up!</strong> This site periodically fetches the latest
+          remote working jobs so jobs may disappear from the listings below
         </div>
         <input
           className="search"
@@ -32,15 +44,23 @@ function HomePage({ jobs }) {
           placeholder={`Search jobs (e.g: ${jobs[0].title})`}
         />
         <section className="jobs" id="jobs">
-          {jobs.filter(j => j.title.includes(value)).map(job => {
-            return (
-              <a href={job.url} target="_blank" key={job.id} className="job">
-                <h3 className="job__title">{job.title}</h3>
-                <p className="job__company">{job.companyName} - {job.location}</p>
-                <ul className="job__description">{job.summary.map(s => <li key={job.id + s}>{s}</li>)}</ul>
-              </a>
-            );
-          })}
+          {jobs
+            .filter(j => j.title.includes(value))
+            .map(job => {
+              return (
+                <a href={job.url} target="_blank" key={job.id} className="job">
+                  <h3 className="job__title">{job.title}</h3>
+                  <p className="job__company">
+                    {job.companyName} - {job.location}
+                  </p>
+                  <ul className="job__description">
+                    {job.summary.map(s => (
+                      <li key={job.id + s}>{s}</li>
+                    ))}
+                  </ul>
+                </a>
+              );
+            })}
         </section>
       </main>
       <style jsx global>{`
@@ -157,13 +177,13 @@ function HomePage({ jobs }) {
 
         .job__description {
           margin: 0;
-          margin-top: .5em;
+          margin-top: 0.5em;
           padding: 0;
           list-style: none;
         }
-        
+
         .job__description li {
-          margin-bottom: .5em;
+          margin-bottom: 0.5em;
           font-size: 0.9em;
           line-height: 1.5em;
         }
